@@ -4,11 +4,6 @@ pipeline {
     skipDefaultCheckout(true)
   }
 
-   environment {
-        AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
-        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
-    }
-
   stages{
     stage('clean workspace') {
       steps {
@@ -22,7 +17,10 @@ pipeline {
     }
     stage('terraform') {
       steps {
+        withCredentials([usernamePassword(credentialsId: 'aws-key', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
         sh './terraformw apply -auto-approve -no-color'
+        }
+        
       }
     }
   }
