@@ -15,12 +15,15 @@ pipeline {
         checkout scm
       }
     }
+
+
     stage('terraform') {
       steps {
         withCredentials([usernamePassword(credentialsId: 'aws-key', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
         sh 'ls -la'
-        sh 'chmod 777 ./terraformw'
-        sh './terraformw apply -auto-approve -no-color'
+        //sh 'chmod 777 ./terraformw'
+        sh 'terraform init'
+        sh 'terraform apply -auto-approve -no-color'
         }
         
       }
