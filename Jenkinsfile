@@ -18,6 +18,8 @@ pipeline {
     stage('terraform') {
       steps {
         withCredentials([usernamePassword(credentialsId: 'aws-key', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+        sh ls -la
+        chmod 777 ./terraformw
         sh './terraformw apply -auto-approve -no-color'
         }
         
