@@ -24,7 +24,7 @@ pipeline {
         sh 'pwd'
         //sh 'chmod 777 ./terraformw'
         sh 'terraform init'
-        sh 'terraform apply -auto-approve -no-color'
+        sh 'terraform destroy -auto-approve -no-color'
         }
         
       }
