@@ -1,4 +1,5 @@
-output "For_connecting_website" {
+output "Public_IP" {
   description = "instance DNS name for connecting to web page"
-  value = "${module.compute.IP}"
+  value = "${module.compute.IP}" 
 }
+
