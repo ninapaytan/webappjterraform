@@ -1,5 +1,8 @@
+
+def "Public-IP"
 pipeline {
   agent { label 'linux'}
+  
   options {
     skipDefaultCheckout(true)
   }
@@ -24,15 +27,21 @@ pipeline {
         sh 'pwd'
         //sh 'chmod 777 ./terraformw'
         sh 'terraform init'
-        sh 'terraform destroy -auto-approve -no-color'
+        sh 'terraform apply -auto-approve -no-color'
+        sh 'terraform output Public-IP'
         }
         
       }
     }
+    stage('Enter EC2'){
+      steps {
+        sh 'print "Public-IP"'
+      }
+    }
   }
-  post {
+  /*post {
     always {
       cleanWs()
     }
-  }
+  }*/
 }
