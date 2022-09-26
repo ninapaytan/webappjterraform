@@ -30,7 +30,7 @@ pipeline {
         sh 'terraform init'
         sh 'terraform apply -auto-approve -no-color'
 
-        Public_IP = sh(returnStdout: true, script: "terraform output Public_IP").trim()
+        Public_IP = sh("terraform output Public_IP")
         
         }
         
