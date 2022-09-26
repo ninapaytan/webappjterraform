@@ -1,50 +1,25 @@
-
 def Public_IP
 
-pipeline {
-  agent { label 'linux'}
-  
-  options {
-    skipDefaultCheckout(true)
+node {
+  stage('terraform') {
+    withCredentials([usernamePassword(credentialsId: 'aws-key', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+      sh """
+        ls -la
+        pwd
+        terraform init
+        terraform apply --auto-approve
+      """
+     // inject terraform out to a groovy variable
+     dd_ip = sh(returnStdout: true, script: "terraform output Public_IP").trim()
+    }
+     
+     
+     
+  }
+  stage('Testing') {
+     sh """
+       echo 'Public_IP'
+     """
   }
 
-  stages{
-    stage('clean workspace') {
-      steps {
-        cleanWs()
-      }
-    }
-    stage('checkout') {
-      steps {
-        checkout scm
-      }
-    }
-
-
-    stage('terraform') {
-      steps {
-        withCredentials([usernamePassword(credentialsId: 'aws-key', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
-        sh 'ls -la'
-        sh 'pwd'
-        //sh 'chmod 777 ./terraformw'
-        sh 'terraform init'
-        sh 'terraform apply -auto-approve -no-color'
-
-        Public_IP = sh("terraform output Public_IP")
-        
-        }
-        
-      }
-    }
-    stage('Enter EC2'){
-      steps {
-        sh 'print "Public-IP"'
-      }
-    }
-  }
-  /*post {
-    always {
-      cleanWs()
-    }
-  }*/
 }
