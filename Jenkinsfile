@@ -1,5 +1,6 @@
 
-def "Public-IP"
+def Public_IP
+
 pipeline {
   agent { label 'linux'}
   
@@ -28,7 +29,9 @@ pipeline {
         //sh 'chmod 777 ./terraformw'
         sh 'terraform init'
         sh 'terraform apply -auto-approve -no-color'
-        sh 'terraform output Public-IP'
+
+        Public_IP = sh(returnStdout: true, script: "terraform output Public_IP").trim()
+        
         }
         
       }
