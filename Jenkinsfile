@@ -4,7 +4,7 @@ node {
   stage('terraform') {
     withCredentials([usernamePassword(credentialsId: 'aws-key', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
       sh """
-        //git clone https://github.com/ninapaytan/webappjterraform.git
+        git clone https://github.com/ninapaytan/webappjterraform.git
         cd /var/lib/jenkins/workspace/terraform-test-adolfo/webappjterraform/
         ls -la
         pwd
