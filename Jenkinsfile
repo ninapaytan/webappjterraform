@@ -4,7 +4,7 @@ node {
   stage('terraform') {
     withCredentials([usernamePassword(credentialsId: 'aws-key', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
       sh """
-        git clone https://github.com/ninapaytan/webappjterraform.git
+        //git clone https://github.com/ninapaytan/webappjterraform.git
         cd /var/lib/jenkins/workspace/terraform-test-adolfo/webappjterraform/
         ls -la
         pwd
@@ -12,7 +12,7 @@ node {
         terraform apply --auto-approve
       """
      // inject terraform out to a groovy variable
-     dd_ip = sh(returnStdout: true, script: "terraform output Public_IP").trim()
+     Public_IP = sh(returnStdout: true, script: "terraform output Public_IP").trim()
     }
      
      
@@ -20,7 +20,7 @@ node {
   }
   stage('Testing') {
      sh """
-       echo 'Public_IP'
+       echo $Public_IP
      """
   }
 
