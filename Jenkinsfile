@@ -20,7 +20,7 @@ node {
   }
   stage('Testing') {
      sh """
-       echo $Public_IP
+       echo "My variable is ${Public_IP}
      """
   }
 
